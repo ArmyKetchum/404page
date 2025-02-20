@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 50px;
+            height: 100vh;
+        }
+        h1 {
+            font-size: 48px;
+            cursor: pointer;
+        }
+        p {
+            font-size: 18px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <img src="logo.png" alt="404 - Page Not Found" style="height: 20%; width: 20%;" onclick="playSound()"/>
+    <div>
+        <h1 onclick="startGame()">404 - Page Not Found</h1>
+        <p>Sorry, the page you are looking for does not exist.</p>
+        <div class="button-group">
+            <button onclick="window.location.reload();">Refresh</button>
+            <button onclick="window.history.back();">Go Back</button>
+        </div>
+    </div>
+    
+    <audio id="hiddenSound" src="hidden_sound.mp3"></audio>
+    
+    <script>
+        function playSound() {
+            let sound = document.getElementById("hiddenSound");
+            sound.play();
+        }
+    </script>
+</body>
+</html>
