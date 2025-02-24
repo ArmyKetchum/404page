@@ -29,6 +29,11 @@
             color: #6c757d;
             font-weight: 400;
         }
+        .clickable {
+            color: inherit;
+            cursor: pointer;
+            text-decoration: none;
+        }
         button {
             font-family: 'Inter', serif;
             font-size: 16px;
@@ -49,7 +54,7 @@
             display: flex;
             gap: 10px;
         }
-        #gameModal {
+        #gameModal, #videoModal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -62,13 +67,13 @@
             justify-content: center;
             align-items: center;
         }
-        #gameModalContent {
+        #gameModalContent, #videoModalContent {
             background-color: #ffffff;
             margin: auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            max-width: 600px;
+            max-width: 400px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border-radius: 10px;
@@ -83,18 +88,28 @@
         img {
             margin-bottom: 20px;
         }
+        .close-button {
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 <body>
-    <img src="logo.png" alt="404 - Page Not Found" style="width: 200px; height: auto;" onclick="playSound()">
+    <img src="resources/logo.png" alt="404 - Page Not Found" style="width: 200px; height: auto;" onclick="playSound()">
     <h1 onclick="openGameModal()">404 - Page Not Found</h1>
-    <p>Sorry, the page you are looking for does not exist.</p>
+    <p>Sorry, <span class="clickable" onclick="openVideoModal()">the page</span> you are looking for does not exist.</p>
     <div class="button-group">
         <button onclick="window.location.reload();">Refresh</button>
         <button onclick="window.history.back();">Go Back</button>
     </div>
     <div id="gameModal">
         <div id="gameModalContent">
+            <button class="close-button" onclick="closeGameModal()">&times;</button>
             <canvas id="gameCanvas" width="400" height="400"></canvas>
             <div class="button-group">
                 <button onclick="resetGame()">Reset</button>
@@ -102,7 +117,15 @@
             </div>
         </div>
     </div>
-    <audio id="hiddenSound" src="hidden_sound.mp3"></audio>
+    <div id="videoModal">
+        <div id="videoModalContent">
+            <video id="hiddenVideo" width="100%" height="auto" controls autoplay>
+                <source src="resources/hidden_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <audio id="hiddenSound" src="resources/hidden_sound.mp3"></audio>
     
     <script>
         const canvas = document.getElementById('gameCanvas');
@@ -202,7 +225,7 @@
 
         function startGame() {
             initializeGame();
-            game = setInterval(draw, 200); // Increased interval time to slow down the snake
+            game = setInterval(draw, 200);
         }
 
         function resetGame() {
@@ -218,6 +241,19 @@
         function closeGameModal() {
             clearInterval(game);
             document.getElementById('gameModal').style.display = 'none';
+        }
+
+        function openVideoModal() {
+            document.getElementById('videoModal').style.display = 'flex';
+            const video = document.getElementById('hiddenVideo');
+            video.play();
+            video.onended = closeVideoModal;
+        }
+
+        function closeVideoModal() {
+            const video = document.getElementById('hiddenVideo');
+            video.pause();
+            document.getElementById('videoModal').style.display = 'none';
         }
 
         function playSound() {
